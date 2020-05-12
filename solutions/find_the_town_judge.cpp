@@ -50,11 +50,24 @@ using namespace std;
 // trust[i][0] != trust[i][1]
 // 1 <= trust[i][0], trust[i][1] <= N
 
-// solution: 
+// solution: graph theory
 
 class Solution {
 public:
     int findJudge(int N, vector<vector<int>>& trust) {
-        
+        vector<vector<int>> degreeTable(N, vector<int>(2, 0)); // 2 field each array space. One for trusted, one for trusts
+
+        for (vector<int> t : trust) {
+            degreeTable[t[0]-1][0]++;
+            degreeTable[t[1]-1][1]++;
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (degreeTable[i][1] == N-1 && degreeTable[i][0] == 0) {
+                return i+1;
+            }
+        }
+
+        return -1;
     }
 };
