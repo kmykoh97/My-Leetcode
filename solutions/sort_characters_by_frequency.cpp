@@ -39,6 +39,28 @@
 class Solution {
 public:
     string frequencySort(string s) {
-        
+        unordered_map<char, int> hashmap;
+        priority_queue<pair<int, char>> pq;
+        string result = "";
+
+        for (char c : s) {
+            hashmap[c]++;
+        }
+
+        for (auto m : hashmap) {
+            pq.push(make_pair(m.second, m.first));
+        }
+
+        while (!pq.empty()) {
+            pair<int, char> temp = pq.top();
+
+            for (int i = 0; i < temp.first; i++) {
+                result += temp.second;
+            }
+            
+            pq.pop();
+        }
+
+        return result;
     }
 };
