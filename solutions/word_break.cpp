@@ -20,11 +20,22 @@
 // Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 // Output: false
 
-// solution: 
+// solution: dp
 
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        
+        vector<int> dp(s.size()+1, 0);
+        dp[0] = 1;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (dp[i] == 0) continue;
+
+            for (int j = 0; j < wordDict.size(); j++) {
+                if (wordDict[j] == s.substr(i, wordDict[j].size())) dp[i+wordDict[j].size()] = 1;
+            }
+        }
+
+        return (dp[s.size()] == 1);
     }
 };

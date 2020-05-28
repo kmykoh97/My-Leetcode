@@ -31,11 +31,46 @@
 // dislikes[i][0] < dislikes[i][1]
 // There does not exist i != j for which dislikes[i] == dislikes[j].
 
-// solution: 
+// solution: bfs, bipartite graph
 
 class Solution {
 public:
+    static bool isBipartite(vector<vector<int>>& adjacent, int N, int i, vector<int>& color) {
+        queue<int> q;
+        q.push(i);
+        color[i] = 0;
+
+        while (!q.empty()) {
+            int temp = q.front();
+            q.pop();
+
+            for (int adj : adjacent[temp]) {
+                if (color[adj] == color[temp]) return false;
+                else if (color[adj] == -1) {
+                    color[adj] = 1 - color[temp];
+                    q.push(adj);
+                }
+            }
+        }
+
+        return true;
+    }
+
     bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
-        
+        vector<vector<int>> adjacent(N+1);
+        vector<int> color(N+1, -1);
+
+        for (int i = 0; i < dislikes.size(); i++) {
+            adjacent[dislikes[i][0]].push_back(dislikes[i][1]);
+            adjacent[dislikes[i][1]].push_back(dislikes[i][0]);
+        }
+
+        for (int i = 1; i <= N; i++) {
+            if (color[i] == -1) {
+                if (!isBipartite(adjacent, N, i, color)) return false;
+            }
+        }
+
+        return true;
     }
 };
