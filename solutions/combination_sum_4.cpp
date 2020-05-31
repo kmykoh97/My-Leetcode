@@ -1,8 +1,8 @@
-Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
+// Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
 
-Example:
+// Example:
 
-nums = [1, 2, 3]
+// nums = [1, 2, 3]
 // target = 4
 
 // The possible combination ways are:
@@ -24,11 +24,20 @@ nums = [1, 2, 3]
 // How does it change the problem?
 // What limitation we need to add to the question to allow negative numbers?
 
-// solution: 
+// solution: dp
 
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
-        
+        vector<unsigned long long int> dp(target+1, 0);
+        dp[0] = 1;
+
+        for (int i = 1; i <= target; i++) {
+            for (int j = 0; j < nums.size(); j++) {
+                if (i >= nums[j]) dp[i] += dp[i - nums[j]];
+            }
+        }
+
+        return dp[target];
     }
 };
