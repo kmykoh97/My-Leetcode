@@ -18,6 +18,32 @@
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        
+        vector<vector<int>> result;
+
+        for (int i = 0; i < intervals.size(); i++) {
+            if (newInterval[0] <= intervals[i][1]) {
+                int lowerbound = min(newInterval[0], intervals[i][0]);
+                int upperbound = newInterval[1];
+                int j;
+
+                for (j = i; j < intervals.size() && newInterval[1] >= intervals[j][0]; j++) {
+                    upperbound = max(upperbound, intervals[j][1]);
+                }
+
+                result.push_back({lowerbound, upperbound});
+
+                while (j < intervals.size()) {
+                    result.push_back(intervals[j]);
+                    j++;
+                }
+
+                return result;
+            } else {
+                result.push_back(intervals[i]);
+            }
+        }
+
+        result.push_back({newInterval[0], newInterval[1]});
+        return result;
     }
 };
