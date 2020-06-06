@@ -10,7 +10,7 @@
 
 // Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
 
-// solution: 
+// solution: 2 pointers
 
 /**
  * Definition for singly-linked list.
@@ -24,7 +24,47 @@
  */
 class Solution {
 public:
+    static ListNode* reverseList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode *back = head, *front = head->next, *temp = nullptr;
+
+        while (front) {
+            temp = front->next;
+            front->next = back;
+            back = front;
+            front = temp;
+        }
+
+        head->next = nullptr;
+        return back;
+    }
+    
     void reorderList(ListNode* head) {
-        
+        if (!head || !head->next) return;
+
+        ListNode *fast = head, *slow = head, *headtemp;
+
+        while (fast->next && fast->next->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+
+        headtemp = reverseList(slow->next);
+        slow->next = nullptr;
+
+        // merge head and headtemp alternately
+        ListNode *list1 = head, *list2 = headtemp, *nlist1, *nlist2;
+
+        while (list1 && list2) {
+            nlist1 = list1->next;
+            nlist2 = list2->next;
+            list1->next = list2;
+            list2->next = nlist1;
+            list1 = nlist1;
+            list2 = nlist2;
+        }
     }
 };
