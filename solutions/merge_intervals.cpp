@@ -21,7 +21,7 @@ public:
 
         if (itv.size() == 0) return res;
 
-        sort(itv.begin(), itv.end(), [](vector<int>& a, vector<int>& b){return a[0] < b[0];});
+        sort(itv.begin(), itv.end(), [](vector<int>& a, vector<int>& b) {return a[0] < b[0];});
         res.push_back(itv[0]);
 
         for (auto e : itv) {
