@@ -38,7 +38,7 @@ public:
         
         int ordering = -1;
 
-        for(int i = 0; s[i] != '\0'; ++i) {
+        for (int i = 0; s[i] != '\0'; ++i) {
             int pos = upper_bound(m[s[i]].begin(), m[s[i]].end(), ordering)-m[s[i]].begin();
             if (pos == m[s[i]].size()) return false;
             ordering = m[s[i]][pos];
