@@ -14,11 +14,32 @@
 // First, iterate the array counting number of 0's, 1's, and 2's, then overwrite array with total number of 0's, then 1's and followed by 2's.
 // Could you come up with a one-pass algorithm using only constant space?
 
-// solution: 
+// solution: 3 pointers
 
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        
+        int left = 0, right = nums.size()-1, i = 0;
+
+        while (i <= right) {
+            while (nums[left] == 0) {
+                left++;
+                
+                if (left > nums.size() - 1) return;
+            }
+
+            while (nums[right] == 2) {
+                right--;
+
+                if (right < 0) return;
+            }
+
+            if (i < left) i = left;
+            if (right <= left) break;
+
+            if (nums[i] == 2) swap(nums[i], nums[right]);
+            else if (nums[i] == 0) swap(nums[left], nums[i]);
+            else i++;
+        }
     }
 };
