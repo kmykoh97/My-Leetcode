@@ -24,7 +24,7 @@
 // All of the nodes' values will be unique.
 // p and q are different and both values will exist in the BST.
 
-// solution: 
+// solution: binary search tree
 
 /**
  * Definition for a binary tree node.
@@ -38,7 +38,22 @@
 
 class Solution {
 public:
+    TreeNode* ans;
+
+    void solve(TreeNode* current, TreeNode* left, TreeNode* right) {
+        if (!current) return;
+
+        if (current->val < left->val && current->val < right->val) {
+            solve(current->right, left, right);
+        } else if (current->val > left->val && current->val > right->val) {
+            solve(current->left, left, right);
+        } else {
+            ans = current;
+        }
+    }
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
+        solve(root, p, q);
+        return ans;
     }
 };
