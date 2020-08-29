@@ -10,7 +10,7 @@
 
 // There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
 
-// solution: tree
+// solution: dfs
 
 /**
  * Definition for a binary tree node.
@@ -25,21 +25,17 @@
  */
 class Solution {
 public:
-    int sum = 0;
+    static int dfs(TreeNode* root, int k) {
+        if (root == nullptr) return 0;
 
-    void helper(TreeNode* root, bool isLeft){
-        if( isLeft && !root->left && !root->right) {
-            sum += root->val;
-            return;
+        if (root->left == nullptr && root->right == nullptr) {
+            return root->val * k;
+        } else {
+            return dfs(root->left, 1) + dfs(root->right, 0);
         }
-
-        if (root->left) helper(root->left, true);
-        if (root->right) helper(root->right, false);
     }
-    int sumOfLeftLeaves(TreeNode* root) {
-        if (!root) return 0;
-        helper(root, false);
 
-        return sum;
+    int sumOfLeftLeaves(TreeNode* root) {
+        return dfs(root, 0);
     }
 };
