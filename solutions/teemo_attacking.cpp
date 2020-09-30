@@ -28,11 +28,25 @@
 // You may assume the length of given time series array won't exceed 10000.
 // You may assume the numbers in the Teemo's attacking time series and his poisoning time duration per attacking are non-negative integers, which won't exceed 10,000,000.
 
-// solution: 
+// solution: iteration
 
 class Solution {
 public:
     int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        int count = 0;
+
+        if (timeSeries.size() == 0)  return count;
         
+        for (int i = 1; i < timeSeries.size(); i++) {
+            if (timeSeries[i]-timeSeries[i-1] >= duration) {
+                count += duration;
+            } else {
+                count += timeSeries[i]-timeSeries[i-1];
+            }
+        }
+    
+        count += duration;
+    
+        return count;
     }
 };
