@@ -13,11 +13,24 @@
 // 0 < nums[i] < 1000.
 // 0 <= k < 10^6.
 
-// solution: 
+// solution: sliding window
 
 class Solution {
 public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        
+        int subarrays = 0, i = 0, j = 0;
+        long long prod = 1;
+
+        while (i < nums.size()) {
+            prod *= nums[i++];
+            
+            while(prod >= k && j < i) {
+                prod = prod / nums[j++];    
+            }
+
+            subarrays += i - j;
+        }
+
+        return subarrays;
     }
 };
