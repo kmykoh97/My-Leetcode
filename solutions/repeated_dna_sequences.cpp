@@ -19,11 +19,23 @@
 // 0 <= s.length <= 105
 // s[i] is 'A', 'C', 'G', or 'T'.
 
-// solution: 
+// solution: set
 
 class Solution {
 public:
     vector<string> findRepeatedDnaSequences(string s) {
+        unordered_set<string> ans;
+        unordered_set<string> visited;
+        int n = s.length();
         
+
+        for (int i = 0; i <= n-10; i++) {
+            string sub = s.substr(i, 10);
+
+            if (visited.find(sub) == visited.end()) visited.insert(sub);
+            else ans.insert(sub);
+        }
+
+        return vector<string>(ans.begin(), ans.end());
     }
 };
