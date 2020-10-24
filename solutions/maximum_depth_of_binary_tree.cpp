@@ -15,7 +15,7 @@
 //    15   7
 // return its depth = 3.
 
-// solution: 
+// solution: recursion
 
 /**
  * Definition for a binary tree node.
