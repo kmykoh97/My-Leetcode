@@ -37,11 +37,29 @@
 // 0 <= tokens.length <= 1000
 // 0 <= tokens[i], P < 104
 
-// solution: 
+// solution: greedy
 
 class Solution {
 public:
     int bagOfTokensScore(vector<int>& tokens, int P) {
-        
+        sort(tokens.begin(), tokens.end());
+        int maxScore = 0, score = 0;
+        int l = 0, r = tokens.size() - 1;
+
+        while (l <= r && P >= tokens[l]) {
+            while (l < tokens.size() && P >= tokens[l]) {
+                P -= tokens[l++];
+                score++;
+            }
+
+            maxScore = max(maxScore, score);
+
+            if (score > 0 && l <= r) {
+                P += tokens[r--];
+                score--;
+            }
+        }
+
+        return maxScore;
     }
 };
