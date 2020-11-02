@@ -45,11 +45,23 @@
 // -231 <= nums[i] <= 231 - 1
 // All the values of nums are unique.
 
-// solution: 
+// solution: stringstream
 
 class Solution {
 public:
     vector<string> summaryRanges(vector<int>& nums) {
-        
+        vector<string> ranges;
+
+        for (int i = 0, j = 1; j <= nums.size(); j++) {
+            if (j == nums.size() || nums[j - 1] + 1 != nums[j]) {
+                stringstream ss;
+                ss << nums[i];
+                if (i != j - 1) ss << "->" << nums[j - 1];
+                ranges.push_back(ss.str());
+                i = j;
+            }
+        }
+
+        return ranges;
     }
 };
