@@ -57,7 +57,7 @@ public:
                ptr = previous->next;
             } else {
                 ptr = ptr->next;
-                previous = previous->next; 
+                previous = previous->next;
             }
         }
         
