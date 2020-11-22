@@ -34,11 +34,36 @@
 // All the values in digits are unique.
 // 1 <= n <= 109
 
-// solution: 
+// solution: iteration
 
 class Solution {
 public:
     int atMostNGivenDigitSet(vector<string>& digits, int n) {
+        int m = digits.size(); 
+        int total = 0;
+        string nums = to_string(n);
+        int n_digits = nums.size();
+
+        for (int i = 1; i < n_digits; i++ ) {
+            total += pow(m, i); 
+        }        
         
+        for (int i = 0; i < n_digits; i++) {
+            int lesser = 0;
+            int equal = 0;
+
+            for (auto& digit : digits) {
+                if (digit < nums.substr(i, 1)) lesser +=1; 
+                else if (digit == nums.substr(i, 1)) equal +=1; 
+            }
+
+            int remaining = n_digits-i-1;
+            total += lesser*pow(m, remaining);
+
+            if (equal == 0) break; 
+            if ( i == n_digits-1 && equal == 1 ) total += 1; 
+        }
+
+        return total ; 
     }
 };
