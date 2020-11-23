@@ -5,37 +5,38 @@
 <p class="has-line-data" data-line-start="6" data-line-end="7"><a href="https://leetcode.com/problems/course-schedule/">https://leetcode.com/problems/course-schedule/</a></p>
 <h2 class="code-line" data-line-start=8 data-line-end=9><a id="Solution_8"></a>Solution</h2>
 <ul>
-<li class="has-line-data" data-line-start="10" data-line-end="12">dfs</li>
+<li class="has-line-data" data-line-start="10" data-line-end="12">topological sort</li>
 </ul>
-<pre><code class="has-line-data" data-line-start="13" data-line-end="45">class Solution {
+<pre><code class="has-line-data" data-line-start="13" data-line-end="46">class Solution {
 public:
-    static bool dfs(vector&lt;int&gt;&amp; visited, vector&lt;vector&lt;int&gt;&gt;&amp; dfsv, int i) {
-        if (visited[i] == 2) return false;
-        if (visited[i] == 1) return true;
-
-        visited[i] = 2;
-
-        for (int i : dfsv[i]) {
-            if (!dfs(visited, dfsv, i)) return false; 
-        }
-
-        visited[i] = 1;
-        return true;
-    }
-
     bool canFinish(int numCourses, vector&lt;vector&lt;int&gt;&gt;&amp; prerequisites) {
-        vector&lt;vector&lt;int&gt;&gt; dfsv(numCourses);
-        vector&lt;int&gt; visited(numCourses, 0); // 0 : init, 1 : visited, 2 : visiting
+        vector&lt;vector&lt;int&gt;&gt; v(numCourses, vector&lt;int&gt;());
+        vector&lt;int&gt; indegree(numCourses, 0);
+        queue&lt;int&gt; sources;
+        int nodesProcessed = 0;
 
-        for (vector&lt;int&gt; p : prerequisites) {
-            dfsv[p[0]].push_back(p[1]);
+        for (vector&lt;int&gt; req : prerequisites) {
+            v[req[1]].push_back(req[0]);
+            indegree[req[0]]++;
         }
 
         for (int i = 0; i &lt; numCourses; i++) {
-            if (!dfs(visited, dfsv, i)) return false;
+            if (indegree[i] == 0) sources.push(i);
         }
 
-        return true;
+        while (!sources.empty()) {
+            int source = sources.front();
+            sources.pop();
+            nodesProcessed++;
+
+            for (int i = 0; i &lt; v[source].size(); i++) {
+                indegree[v[source][i]]--;
+
+                if (indegree[v[source][i]] == 0) sources.push(v[source][i]);
+            }
+        }
+
+        return nodesProcessed == numCourses;
     }
 };
 </code></pre>
