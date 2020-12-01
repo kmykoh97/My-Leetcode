@@ -36,11 +36,34 @@
 
 class Solution {
 public:
-    void dfs(vector<int>& candidates, vector<vector<int>>& ans, int target) {
-        
+    set<vector<int>> ans;
+
+    void dfs(vector<int>& candidates, vector<int>& current, int index, int target) {
+        if (target < 0 || index > candidates.size()) return;
+        else if (target == 0) {
+            ans.insert(current);
+            return;
+        }
+
+        for (int i = index; i < candidates.size(); i++) {
+            if (candidates[i] < 0) continue;
+
+            current.push_back(candidates[i]);
+            dfs(candidates, current, i+1, target-candidates[i]);
+            current.pop_back();
+        }
     }
 
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        
+        vector<int> current;
+        vector<vector<int>> result;
+        sort(candidates.begin(), candidates.end());
+        dfs(candidates, current, 0, target);
+
+        for (vector<int> e : ans) {
+            result.push_back(e);
+        }
+
+        return result;
     }
 };
